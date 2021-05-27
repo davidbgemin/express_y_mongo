@@ -1,0 +1,8 @@
+1. iniciar el proyecto:
+yarn init -y
+
+2. crear el archivo .babelrc
+
+3. instalar las librerías:
+yarn add --dev @babel/cli @babel/core @babel/node @babel/preset-env
+yarn add express body-parser mongoose

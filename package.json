@@ -1,0 +1,18 @@
+{
+  "name": "express_y_mongo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "david <davidbgemin@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/preset-env": "^7.14.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.11"
+  }
+}
