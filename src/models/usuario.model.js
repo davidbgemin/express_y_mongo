@@ -1,4 +1,4 @@
-import { Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { tareaSchema } from "./tarea.models";
 
 const usuarioSchema = new Schema({
@@ -37,8 +37,10 @@ const usuarioSchema = new Schema({
     },
 
     // para relación nosql con la colección tarea:
-    usuarioTareas: [tareasSchema],
-    alias: "tareas"
+    usuarioTareas: {
+        type: [tareaSchema],
+        alias: "tareas"
+    }
 },
 {
     timestamps: {

@@ -25,3 +25,23 @@ yarn start:dev
 
 *todavía no se verán los cambios en mongo porque faltan los controladores
 **se agregó archivo de imagen donde se ve el "modelo" de las relaciones de los colecciones.
+
+
+
+------------------------------------------------
+1. instalar: 
+yarn add bcrypt
+2. crear src/controllers/usuario.controller.js --> con esto se creará la bd
+3. corregir el usuario.model.js (línea: 1, 40-43)
+4. crear src/routes/usuario.route.js
+5. agregar en el server.js la ruta usuario
+6. probar en postman con método post:
+{
+    "usuarioNombre": "david",
+    "usuarioApellido": "baila",
+    "usuarioCorreo": "davidbgemin@gmail.com",
+    "password": "123456ae",
+    "usuarioCelular": "987654321",
+    "usuarioFechaNacimiento": "1993-09-28"
+}
+7. vemos como se registra el usuario en la bd
