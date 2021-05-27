@@ -6,3 +6,22 @@ yarn init -y
 3. instalar las librerías:
 yarn add --dev @babel/cli @babel/core @babel/node @babel/preset-env
 yarn add express body-parser mongoose
+
+------------------------------------------------
+1. crear src/config/server.js
+2. crear src/models/usuario.models.js
+3. crear src/index.js
+4. crear la variables: .env y .env.example
+5. modificar el package.json:
+  "scripts": {
+    "start": "node ./build/index.js",
+    "start:dev": "nodemon --exec babel-node ./src/index.js",
+    "build": "babel src --out-dir build"
+  },
+6. instalar:
+yarn add dotenv
+7. correr el servidor:
+yarn start:dev
+
+*todavía no se verán los cambios en mongo porque faltan los controladores
+**se agregó archivo de imagen donde se ve el "modelo" de las relaciones de los colecciones.
