@@ -1,5 +1,5 @@
 import { Usuario } from "../models/usuario.model";
-import { hashSync } from "bcrypt";
+import { hashSync, compareSync } from "bcrypt";
 
 export const registro = async (req, res) => {
     // hay tres formas de hacer una creación (en este caso se usará la primera):
@@ -44,5 +44,45 @@ export const registro = async (req, res) => {
     // ])
 }
 
-export const login = (req, res) => {}
+export const login = async (req, res) => {
+  const {email, password} = req.body;
+  const usuario = await Usuario.findOne({
+    usuarioCorreo: email
+  })
+  // * PRIMERA FORMA:
+  // ? SELECT * FROM USUARIO WHERE EMAIL LIKE '%davidbgemin%'
+  // await Usuario.findOne({
+    // usuarioCorreo: {$regex: ".*" + email + "*."}
+  // })
+  // * SEGUNDA FORMA:
+  // await Usuario.where({
+    // usuarioCorreo: email
+  // })
+  // * TERCERA FORMA:
+  // ? encuentrame todos los usuarios cuyo correo sea email y su fecha de naciemiento sea mayor que 2000-01-01
+  // await Usuario.where("usuarioCorreo").equals(email).where("usuarioFechaNacimiento").gt("2000-01-01")
+  if (!usuario) {
+    return res.status(404).json({
+      success: false,
+      content: null,
+      message: "usuario no encontrado"
+    })
+  }
+  const resultado = compareSync(password, usuario.usuarioPassword);
+  if (resultado) {
+    // TODO: implementar JWT
+    return res.json({
+      success: true,
+      content: null,
+      message: 'bienvenido'
+    })
+  } else {
+    return res.status(401).json({
+      success: false,
+      content: null,
+      message: 'credenciales incorrectas'
+    })
+  }
+
+}
 export const mostrarUsuario = (req, res) => {}

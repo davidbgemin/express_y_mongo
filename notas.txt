@@ -45,3 +45,15 @@ yarn add bcrypt
     "usuarioFechaNacimiento": "1993-09-28"
 }
 7. vemos como se registra el usuario en la bd
+
+
+------------------------------------------------
+1. agregar el método login en usuario.controller.js
+2. agregar la ruta de login en usuario.route.js
+3. probar en postman
+127.0.0.1:8000/login
+{
+    "email": "davidbgemin@gmail.com",
+    "password": "123456ae"
+}
+vemos que ingresa correctamente
