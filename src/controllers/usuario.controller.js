@@ -1,5 +1,7 @@
 import { Usuario } from "../models/usuario.model";
 import { hashSync, compareSync } from "bcrypt";
+import jwt from 'jsonwebtoken';
+require('dotenv').config;
 
 export const registro = async (req, res) => {
     // hay tres formas de hacer una creación (en este caso se usará la primera):
@@ -70,10 +72,14 @@ export const login = async (req, res) => {
   }
   const resultado = compareSync(password, usuario.usuarioPassword);
   if (resultado) {
+    const token = jwt.sign({_id: usuario._id}, process.env.JWT_SECRET, {
+      // medido en segundos:
+      expiresIn: 86400,
+    })
     // TODO: implementar JWT
     return res.json({
       success: true,
-      content: null,
+      content: token,
       message: 'bienvenido'
     })
   } else {

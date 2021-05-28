@@ -57,3 +57,110 @@ yarn add bcrypt
     "password": "123456ae"
 }
 vemos que ingresa correctamente
+
+
+------------------------------------------------
+implementación de rutas protegidas con jwt: (solo los usuarios logueados pueden acceder a sus propias tareas, agregar y/o modificar)
+1. instalar
+yarn add jsonwebtoken
+
+2. modificar usuario.controller.js -> agregar el token (dotenv) e importar jwt
+3. crear las variables: .env y .env.example
+** en posman probar la ruta agregando usuario para ver el token generado
+127.0.0.1:8000/login
+{
+    "email": "davidbgemin@gmail.com",
+    "password": "123456ae"
+}
+*devuelve el token
+4. crear tarea.controller.js
+5. crear tareas.route.js y agregar las rutas de get,post tareas y crear tareas
+6. agregar las rutas creadas en server.js
+7. hacer pruebas en postman:
+127.0.0.1:8000/tareas/60b02f1af52afc2b58a688ec -> get: para probar si devuelve las tareas
+
+127.0.0.1:8000/tareas/60b02f1af52afc2b58a688ec
+{
+    "tareaFecha": "2021-05-28",
+    "tareaNombre": "hacer la tarea de mate",
+    "tareaLugar": "biblioteca"
+}
+**crea la tarea para ese usuario (json dentro de json)
+8. comprobar si se crean las tareas de un determinado usuario en la bd
+
+9. crearemos otro usuario:
+http://127.0.0.1:8000/registro
+
+{
+    "usuarioNombre": "antonio",
+    "usuarioApellido": "gemin",
+    "usuarioCorreo": "antoniogemin@gmail.com",
+    "password": "654321",
+    "usuarioCelular": "968574152",
+    "usuarioFechaNacimiento": "1993-09-12"
+}
+
+
+127.0.0.1:8000/login
+{
+    "email": "antoniogemin@gmail.com",
+    "password": "654321"
+}
+
+10. crear verifyUser.js
+
+11. hacer la prueba en postman:
+* obetener el token de un usuario:
+127.0.0.1:8000/login (post)
+
+{
+    "email": "antoniogemin@gmail.com",
+    "password": "654321"
+}
+
+{
+    "success": true,
+    "content": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGIwYTJlNTZhOWQ1NDQyNjQ3Zjk3NTciLCJpYXQiOjE2MjIyMzYxNDcsImV4cCI6MTYyMjMyMjU0N30.A27_kuOpcLxhkJrP7OBR9gwedcE4gVqCQKqYFYEBgKQ",
+    "message": "bienvenido"
+}
+
+este usuario va a tener un id "x" que se puede ver en la bd
+con ese token abrir una nueva pestaña en postman y configurar el header:
+token-de-acceso -> valor: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGIwYTJlNTZhOWQ1NDQyNjQ3Zjk3NTciLCJpYXQiOjE2MjIyMzYxNDcsImV4cCI6MTYyMjMyMjU0N30.A27_kuOpcLxhkJrP7OBR9gwedcE4gVqCQKqYFYEBgKQ
+
+luego hacer la prueba con:
+127.0.0.1:8000/tareas/60b02f1af52afc2b58a688ec
+
+{
+    "tareaFecha": "2021-05-28",
+    "tareaNombre": "hacer la tarea de física",
+    "tareaLugar": "auditorio"
+}
+
+{
+    "success": false,
+    "content": null,
+    "message": "Usuario no autorizado" <-- bota usuario no autorizado porque el id 60b02f1af52afc2b58a688ec no es el id del usuario de id "x"
+}
+
+
+** la prueba del usuario de id "x":
+127.0.0.1:8000/tareas/60b0a2e56a9d5442647f9757 <-- id "x"
+
+{
+    "tareaFecha": "2021-05-28",
+    "tareaNombre": "hacer la tarea de física",
+    "tareaLugar": "auditorio"
+}
+
+{
+    "success": true,
+    "content": {
+        "_id": "60b16412c9d38d1318a56add",
+        "tareaFecha": "2021-05-28T00:00:00.000Z",
+        "tareaNombre": "hacer la tarea de física",
+        "tareaLugar": "auditorio",
+        "tareaEstado": "por hacer"
+    },
+    "message": "Tarea agregada correctamente" <-- funciona porque el id "x" y el token configurado son del mismo usuario
+}

@@ -2,6 +2,7 @@ import express from "express";
 import { json } from "body-parser";
 import { connect } from "mongoose";
 import { usuario_router } from "../routes/usuario.route";
+import tareaRoutes from '../routes/tareas.route';
 require("dotenv").config();
 
 export default class Server {
@@ -19,6 +20,7 @@ export default class Server {
     rutas() {
         this.app.use(usuario_router);
         this.app.get("/", (req, res) => res.send("Bienvenido a mi API"));
+        this.app.use(tareaRoutes)
     }
     start() {
         // sirve para levantar el servidor en el cual le tenemos que pasar el puerto y si todo es existoso ingresaremos al callback (segundo parámetro)
